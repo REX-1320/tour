@@ -84,7 +84,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <GlassButton variant="primary" size="lg" className="w-full sm:w-auto relative z-20 pointer-events-auto" href="#destinations">
+            <GlassButton variant="primary" size="lg" className="w-full sm:w-auto relative z-20 pointer-events-auto" href="/destinations">
               Explore Destinations <ArrowRight className="w-5 h-5 ml-2" />
             </GlassButton>
             <GlassButton size="lg" className="w-full sm:w-auto relative z-20 pointer-events-auto" onClick={() => alert('High-quality destination video loading...')}>

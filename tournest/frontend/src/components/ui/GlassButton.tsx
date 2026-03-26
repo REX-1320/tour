@@ -1,15 +1,16 @@
 'use client';
 
-import { ReactNode, ButtonHTMLAttributes } from 'react';
+import { ReactNode } from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
+import Link from 'next/link';
 
-// Merge Framer Motion props with standard button attributes
-interface GlassButtonProps extends HTMLMotionProps<'button'> {
+interface GlassButtonProps extends Omit<HTMLMotionProps<'button'>, 'onClick'> {
   children: ReactNode;
   variant?: 'default' | 'primary' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   href?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 }
 
 export default function GlassButton({
@@ -18,6 +19,7 @@ export default function GlassButton({
   size = 'md',
   className = '',
   href,
+  onClick,
   ...props
 }: GlassButtonProps) {
   const variants = {
@@ -35,8 +37,15 @@ export default function GlassButton({
   const combinedClass = `${variants[variant]} ${sizes[size]} ${className}`;
 
   if (href) {
+    if (href.startsWith('/')) {
+      return (
+        <Link href={href} className={combinedClass} style={{ display: 'inline-flex', verticalAlign: 'middle' }} onClick={onClick as any}>
+          {children}
+        </Link>
+      );
+    }
     return (
-      <a href={href} className={combinedClass} style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+      <a href={href} className={combinedClass} style={{ display: 'inline-flex', verticalAlign: 'middle' }} onClick={onClick as any}>
         {children}
       </a>
     );
@@ -46,6 +55,7 @@ export default function GlassButton({
     <motion.button
       className={combinedClass}
       whileTap={{ scale: 0.98 }}
+      onClick={onClick}
       {...(props as any)}
     >
       {children}

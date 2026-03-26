@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { motion } from 'framer-motion';
 import { Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 import GlassButton from '@/components/ui/GlassButton';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.MouseEvent) => {
+  const handleRegister = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Please fill in both fields');
@@ -23,10 +23,10 @@ export default function LoginPage() {
     setLoading(true);
     
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       window.location.href = '/';
     } catch (err: any) {
-      setError(err.message || 'Failed to login');
+      setError(err.message || 'Failed to register');
     } finally {
       setLoading(false);
     }
@@ -44,8 +44,8 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-tr from-[rgba(255,255,255,0.05)] to-transparent pointer-events-none" />
         
         <div className="relative z-10">
-          <h1 className="heading-md text-white mb-2">Welcome Back</h1>
-          <p className="text-text-secondary text-sm mb-8">Sign in to continue your journey.</p>
+          <h1 className="heading-md text-white mb-2">Create Account</h1>
+          <p className="text-text-secondary text-sm mb-8">Start your journey with TourNest.</p>
 
           {error && (
             <div className="bg-[rgba(248,113,113,0.15)] border border-[rgba(248,113,113,0.3)] text-[var(--danger)] p-3 rounded-lg text-sm flex items-center gap-2 mb-6 pointer-events-auto relative z-20">
@@ -69,11 +69,11 @@ export default function LoginPage() {
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input 
                 type="password" 
-                placeholder="Password" 
+                placeholder="Password (min 6 chars)" 
                 className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none focus:border-[var(--accent-light)] transition-colors"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin(e as any)}
+                onKeyDown={(e) => e.key === 'Enter' && handleRegister(e as any)}
               />
             </div>
           </div>
@@ -81,14 +81,14 @@ export default function LoginPage() {
           <GlassButton 
             variant="primary" 
             className="w-full justify-center relative z-20 pointer-events-auto" 
-            onClick={handleLogin}
+            onClick={handleRegister}
             disabled={loading}
           >
-            {loading ? 'Signing in...' : 'Sign In'} <ArrowRight className="w-4 h-4 ml-2" />
+            {loading ? 'Creating...' : 'Register'} <ArrowRight className="w-4 h-4 ml-2" />
           </GlassButton>
 
           <p className="text-center text-text-secondary text-sm mt-6 relative z-20 pointer-events-auto">
-            Don't have an account? <a href="/register" className="text-[var(--accent-light)] hover:underline ml-1">Register here</a>
+            Already have an account? <a href="/login" className="text-[var(--accent-light)] hover:underline ml-1">Sign In</a>
           </p>
         </div>
       </motion.div>

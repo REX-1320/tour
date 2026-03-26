@@ -81,9 +81,14 @@ export default function Navbar() {
                   </GlassButton>
                 </div>
               ) : (
-                <GlassButton href="/login" variant="primary" size="sm" className="hidden lg:flex">
-                  <UserIcon className="w-4 h-4 mr-1" /> Sign In
-                </GlassButton>
+                <div className="hidden lg:flex items-center gap-2">
+                  <GlassButton href="/login" size="sm" className="pointer-events-auto z-20">
+                    <UserIcon className="w-4 h-4 mr-1" /> Login
+                  </GlassButton>
+                  <GlassButton href="/register" variant="primary" size="sm" className="pointer-events-auto z-20">
+                    Register
+                  </GlassButton>
+                </div>
               )}
             </div>
           </div>
@@ -144,9 +149,14 @@ export default function Navbar() {
                   </GlassButton>
                 </div>
               ) : (
-                <GlassButton href="/login" variant="primary" className="w-full justify-center">
-                  Sign In
-                </GlassButton>
+                <div className="flex flex-col gap-3 w-full">
+                  <GlassButton href="/login" className="w-full justify-center pointer-events-auto z-20">
+                    Login
+                  </GlassButton>
+                  <GlassButton href="/register" variant="primary" className="w-full justify-center pointer-events-auto z-20">
+                    Register
+                  </GlassButton>
+                </div>
               )}
               
               <GlassButton className="w-full justify-center">
