@@ -49,12 +49,12 @@ export default function Footer() {
 
           {/* Links 2 */}
           <div>
-            <h4 className="text-white font-semibold mb-6">Company</h4>
+            <h4 className="text-white font-semibold mb-6">Company & Support</h4>
             <ul className="flex flex-col gap-4">
-              <li><a href="#" className="text-text-secondary hover:text-white transition-colors text-sm">Our Story</a></li>
-              <li><a href="#" className="text-text-secondary hover:text-white transition-colors text-sm">Sustainability</a></li>
-              <li><a href="#" className="text-text-secondary hover:text-white transition-colors text-sm">Careers</a></li>
-              <li><a href="#" className="text-text-secondary hover:text-white transition-colors text-sm">Contact Us</a></li>
+              <li><a href="/about" className="text-text-secondary hover:text-white transition-colors text-sm">About Us</a></li>
+              <li><a href="/support" className="text-text-secondary hover:text-white transition-colors text-sm">Customer Care</a></li>
+              <li><a href="/terms" className="text-text-secondary hover:text-white transition-colors text-sm">Terms & Conditions</a></li>
+              <li><a href="/contact" className="text-text-secondary hover:text-white transition-colors text-sm">Contact Us</a></li>
             </ul>
           </div>
 
@@ -81,8 +81,8 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-text-muted text-sm">
           <p>© 2026 TourNest. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="/terms" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

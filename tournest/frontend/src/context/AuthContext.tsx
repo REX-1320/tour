@@ -1,12 +1,14 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { 
-  User, 
-  onAuthStateChanged, 
-  signOut as firebaseSignOut 
+import {
+  User,
+  onAuthStateChanged,
+  signOut as firebaseSignOut,
 } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
+import { saveUser } from '@/lib/saveUser';
 
 interface AuthContextType {
   user: User | null;
@@ -23,12 +25,17 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    // Listen for auth state changes directly from Firebase
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
+
+      // Save user profile to Firestore on first login (no-op if already exists)
+      if (currentUser) {
+        await saveUser(currentUser);
+      }
     });
 
     return () => unsubscribe();
@@ -37,8 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
+      router.push('/login');
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error('[TourNest] Error signing out:', error);
     }
   };
 

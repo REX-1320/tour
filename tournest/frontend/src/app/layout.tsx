@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from '@/context/AuthContext';
+import { RegionProvider } from '@/context/RegionContext';
 import FloatingConcierge from '@/components/ui/FloatingConcierge';
 import WeatherFluidBackground from '@/components/ui/WeatherFluidBackground';
-import TravelPodCursors from '@/components/ui/TravelPodCursors';
 
 export default function RootLayout({
   children,
@@ -35,14 +35,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <AuthProvider>
-          <WeatherFluidBackground forcedWeather="default" />
-          <Navbar />
-          <main className="flex-grow flex flex-col relative z-10 w-full overflow-x-hidden">
-            {children}
-          </main>
-          <Footer />
-          <FloatingConcierge />
-          <TravelPodCursors />
+          <RegionProvider>
+            <WeatherFluidBackground forcedWeather="default" />
+            <Navbar />
+            <main className="flex-grow flex flex-col relative z-10 w-full overflow-x-hidden">
+              {children}
+            </main>
+            <Footer />
+            <FloatingConcierge />
+          </RegionProvider>
         </AuthProvider>
       </body>
     </html>

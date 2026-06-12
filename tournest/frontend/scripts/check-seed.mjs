@@ -1,6 +1,5 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,10 +9,12 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// Initialize Firebase only if it hasn't been initialized already
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export default app;
+async function check() {
+  const snap = await getDocs(collection(db, "destinations"));
+  console.log("Total destinations in database:", snap.size);
+  process.exit(0);
+}
+check();

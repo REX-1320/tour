@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 
-export default function PanoramicGlassView({ imageUrl = 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2000' }) {
+export default function PanoramicGlassView({ imageUrl = '' }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

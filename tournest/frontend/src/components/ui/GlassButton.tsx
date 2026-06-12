@@ -1,16 +1,18 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
-import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
-interface GlassButtonProps extends Omit<HTMLMotionProps<'button'>, 'onClick'> {
+interface GlassButtonProps {
   children: ReactNode;
   variant?: 'default' | 'primary' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   href?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  onClick?: (e: any) => void;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export default function GlassButton({
@@ -20,8 +22,11 @@ export default function GlassButton({
   className = '',
   href,
   onClick,
-  ...props
+  disabled = false,
+  type = 'button',
 }: GlassButtonProps) {
+  const router = useRouter();
+
   const variants = {
     default: 'glass-btn',
     primary: 'glass-btn glass-btn-primary',
@@ -36,27 +41,32 @@ export default function GlassButton({
 
   const combinedClass = `${variants[variant]} ${sizes[size]} ${className}`;
 
-  if (href) {
-    if (href.startsWith('/')) {
-      return (
-        <Link href={href} className={combinedClass} style={{ display: 'inline-flex', verticalAlign: 'middle' }} onClick={onClick as any}>
-          {children}
-        </Link>
-      );
+  const handleClick = (e: any) => {
+    if (disabled) return;
+    
+    // Custom onClick handler execution
+    if (onClick) {
+      onClick(e);
     }
-    return (
-      <a href={href} className={combinedClass} style={{ display: 'inline-flex', verticalAlign: 'middle' }} onClick={onClick as any}>
-        {children}
-      </a>
-    );
-  }
+    
+    // Navigation routing
+    if (href && !e.defaultPrevented) {
+      e.preventDefault();
+      if (href.startsWith('http')) {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      } else {
+        router.push(href);
+      }
+    }
+  };
 
   return (
     <motion.button
+      type={type}
       className={combinedClass}
       whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      {...(props as any)}
+      onClick={handleClick}
+      disabled={disabled}
     >
       {children}
     </motion.button>
